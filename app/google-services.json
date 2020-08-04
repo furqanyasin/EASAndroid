@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "293489456658",
+    "firebase_url": "https://eas-android-82d44.firebaseio.com",
+    "project_id": "eas-android-82d44",
+    "storage_bucket": "eas-android-82d44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293489456658:android:d5a2663b0e930ca7eb4acb",
+        "android_client_info": {
+          "package_name": "com.example.easandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "293489456658-nofl8f4pf5mea92ku9un6149vfck5stp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSzrMW1v4bSj7az8c5DlYoFMVghsog5Kc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "293489456658-nofl8f4pf5mea92ku9un6149vfck5stp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
