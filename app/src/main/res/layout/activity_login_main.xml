@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorCardBg"
     tools:context=".LoginMainActivity">
 
     <TextView
@@ -59,16 +58,24 @@
             <Button
                 android:id="@+id/admin_login"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:text="Admin Login"
+                android:textStyle="bold"
+                android:textAllCaps="false"
                 android:layout_margin="5dp"
+                android:textColor="@android:color/white"
+                android:background="@color/colorAccent"
                 android:layout_weight="1"
                 android:textSize="20sp"/>
             <Button
                 android:id="@+id/staff_login"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:text="Staff Login"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:background="@color/colorAccent"
+                android:textAllCaps="false"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:textSize="20sp"/>

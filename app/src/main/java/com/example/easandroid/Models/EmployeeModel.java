@@ -5,16 +5,21 @@ public class EmployeeModel {
     private String Password;
     private String Phone;
     private String IsAdmin;
+    private String Image;
+    private String Designation;
 
     public EmployeeModel() {
     }
 
-    public EmployeeModel(String name, String password, String phone, String isAdmin) {
+    public EmployeeModel(String name, String designation, String phone,  String image) {
         Name = name;
-        Password = password;
+        Designation = designation;
         Phone = phone;
         IsAdmin = "false";
+        Image = image;
     }
+
+
 
     public String getName() {
         return Name;
@@ -46,5 +51,21 @@ public class EmployeeModel {
 
     public void setIsAdmin(String isAdmin) {
         IsAdmin = isAdmin;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
+    }
+
+    public String getDesignation() {
+        return Designation;
+    }
+
+    public void setDesignation(String designation) {
+        Designation = designation;
     }
 }

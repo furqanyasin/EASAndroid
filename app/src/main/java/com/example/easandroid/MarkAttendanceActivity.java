@@ -1,12 +1,14 @@
 package com.example.easandroid;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
@@ -14,8 +16,20 @@ import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.easandroid.Models.Attendance;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -26,8 +40,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -38,6 +50,13 @@ public class MarkAttendanceActivity extends AppCompatActivity {
     private TextView mHeadingLabel;
     private ImageView mFingerprintImage;
     private TextView mParaLabel;
+    private Button btnCheckIn, btnCheckOut;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    FirebaseStorage firebaseStorage;
+    StorageReference storageReference;
+
+
 
     private FingerprintManager fingerprintManager;
     private KeyguardManager keyguardManager;
@@ -51,51 +70,119 @@ public class MarkAttendanceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_attendance);
 
+        //init firebase
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Attendance");
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
+
         mHeadingLabel = findViewById(R.id.headingLabel);
         mFingerprintImage = findViewById(R.id.fingerprintImage);
         mParaLabel = findViewById(R.id.paraLabel);
-        getTime();
+        btnCheckIn = findViewById(R.id.btn_check_in);
+        btnCheckOut = findViewById(R.id.btn_check_out);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        btnCheckIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkInPermissions();
+
+
+            }
+        });
+
+        btnCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkOutPermissions();
+
+            }
+
+        });
+
+
+    }
+
+    private void checkOutPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
             keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
 
-            if(!fingerprintManager.isHardwareDetected()){
+            if (!fingerprintManager.isHardwareDetected()) {
 
                 mParaLabel.setText("Fingerprint Scanner not detected in Device");
 
-            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED){
+            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
 
                 mParaLabel.setText("Permission not granted to use Fingerprint Scanner");
 
-            } else if (!keyguardManager.isKeyguardSecure()){
+            } else if (!keyguardManager.isKeyguardSecure()) {
 
                 mParaLabel.setText("Add Lock to your Phone in Settings");
 
-            } else if (!fingerprintManager.hasEnrolledFingerprints()){
+            } else if (!fingerprintManager.hasEnrolledFingerprints()) {
 
                 mParaLabel.setText("You should add atleast 1 Fingerprint to use this Feature");
 
             } else {
 
-                mParaLabel.setText("Place your Finger on Scanner to Access the App.");
+                mParaLabel.setText("Place your Finger on Scanner to\n Check Out.");
 
                 generateKey();
 
-
-                if (cipherInit()){
+                if (cipherInit()) {
 
                     FingerprintManager.CryptoObject cryptoObject = new FingerprintManager.CryptoObject(cipher);
-                    FingerprintHandler fingerprintHandler = new FingerprintHandler(this);
-                    fingerprintHandler.startAuth(fingerprintManager, cryptoObject);
+                    CheckOutHandler checkOutHandler = new CheckOutHandler(this);
+                    checkOutHandler.startAuth(fingerprintManager, cryptoObject);
 
                 }
             }
 
         }
-
     }
+
+    private void checkInPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
+            keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+
+            if (!fingerprintManager.isHardwareDetected()) {
+
+                mParaLabel.setText("Fingerprint Scanner not detected in Device");
+
+            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
+
+                mParaLabel.setText("Permission not granted to use Fingerprint Scanner");
+
+            } else if (!keyguardManager.isKeyguardSecure()) {
+
+                mParaLabel.setText("Add Lock to your Phone in Settings");
+
+            } else if (!fingerprintManager.hasEnrolledFingerprints()) {
+
+                mParaLabel.setText("You should add atleast 1 Fingerprint to use this Feature");
+
+            } else {
+
+                mParaLabel.setText("Place your Finger on Scanner to \n Check In");
+
+                generateKey();
+
+                if (cipherInit()) {
+
+                    FingerprintManager.CryptoObject cryptoObject = new FingerprintManager.CryptoObject(cipher);
+                    CheckInHandler checkInHandler = new CheckInHandler(this);
+                    checkInHandler.startAuth(fingerprintManager, cryptoObject);
+
+                }
+            }
+
+        }
+    }
+
 
     @TargetApi(Build.VERSION_CODES.M)
     private void generateKey() {
@@ -155,14 +242,5 @@ public class MarkAttendanceActivity extends AppCompatActivity {
 
     }
 
-    public void getTime(){
-
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss  a");
-        String time = "Time: "+format.format(calendar.getTime());
-
-        TextView textView = findViewById(R.id.tv_get_time);
-        textView.setText(time);
-    }
 
 }

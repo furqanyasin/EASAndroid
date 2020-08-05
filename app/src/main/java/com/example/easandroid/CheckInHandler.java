@@ -16,19 +16,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
+public class CheckInHandler extends FingerprintManager.AuthenticationCallback {
     private Context context;
 
 
-
-    public FingerprintHandler(Context context) {
+    public CheckInHandler(Context context) {
 
         this.context = context;
     }
 
 
-
-    public void startAuth(FingerprintManager fingerprintManager, FingerprintManager.CryptoObject cryptoObject){
+    public void startAuth(FingerprintManager fingerprintManager, FingerprintManager.CryptoObject cryptoObject) {
 
         CancellationSignal cancellationSignal = new CancellationSignal();
         fingerprintManager.authenticate(cryptoObject, cancellationSignal, 0, this, null);
@@ -59,20 +57,21 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     @Override
     public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
 
-        this.update("You can now access the app.", true);
+        this.update("Attendance Marked!", true);
+        this.getCheckInTime();
+
 
     }
 
 
-
     private void update(String s, boolean b) {
 
-        TextView paraLabel = ((Activity)context).findViewById(R.id.paraLabel);
-        ImageView imageView = ((Activity)context).findViewById(R.id.fingerprintImage);
+        TextView paraLabel = ((Activity) context).findViewById(R.id.paraLabel);
+        ImageView imageView = ((Activity) context).findViewById(R.id.fingerprintImage);
 
         paraLabel.setText(s);
 
-        if(b == false){
+        if (b == false) {
 
             paraLabel.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
 
@@ -83,6 +82,16 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
         }
 
+    }
+
+    public void getCheckInTime() {
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss  a");
+        String time = "Check In Time: " + format.format(calendar.getTime());
+
+        TextView textView = ((Activity) context).findViewById(R.id.tv_get_time);
+        textView.setText(time);
     }
 
 
