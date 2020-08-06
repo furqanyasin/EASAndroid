@@ -11,12 +11,13 @@ public class EmployeeModel {
     public EmployeeModel() {
     }
 
-    public EmployeeModel(String name, String designation, String phone,  String image) {
+    public EmployeeModel(String name, String password, String designation, String phone,  String image) {
         Name = name;
         Designation = designation;
         Phone = phone;
         IsAdmin = "false";
         Image = image;
+        Password = password;
     }
 
 
@@ -68,4 +69,6 @@ public class EmployeeModel {
     public void setDesignation(String designation) {
         Designation = designation;
     }
+
+
 }

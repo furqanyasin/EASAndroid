@@ -24,7 +24,7 @@ import java.util.Calendar;
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class CheckOutHandler extends FingerprintManager.AuthenticationCallback {
     private Context context;
-    String date,time;
+    String name, phone, date, time;
 
 
 
@@ -97,7 +97,7 @@ public class CheckOutHandler extends FingerprintManager.AuthenticationCallback {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("Attendance");
 
-        Attendance attendance = new Attendance(date, time);
+        Attendance attendance = new Attendance (date, time, name, phone);
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss  a");

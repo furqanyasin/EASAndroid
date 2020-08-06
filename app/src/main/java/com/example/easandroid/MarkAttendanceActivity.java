@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
@@ -21,8 +22,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.easandroid.Models.Attendance;
+import com.example.easandroid.Models.EmployeeModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,13 +52,14 @@ import javax.crypto.SecretKey;
 public class MarkAttendanceActivity extends AppCompatActivity {
     private TextView mHeadingLabel;
     private ImageView mFingerprintImage;
-    private TextView mParaLabel;
+    private TextView mParaLabel, getTime;
     private Button btnCheckIn, btnCheckOut;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
 
+    String name, phone, date, time;
 
 
     private FingerprintManager fingerprintManager;
@@ -81,12 +85,13 @@ public class MarkAttendanceActivity extends AppCompatActivity {
         mParaLabel = findViewById(R.id.paraLabel);
         btnCheckIn = findViewById(R.id.btn_check_in);
         btnCheckOut = findViewById(R.id.btn_check_out);
+        getTime = findViewById(R.id.tv_get_time);
 
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkInPermissions();
-
+                //addCheckIn();
 
             }
         });
@@ -96,8 +101,38 @@ public class MarkAttendanceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 checkOutPermissions();
 
+
             }
 
+        });
+
+
+    }
+
+    private void addCheckIn() {
+        date = getTime.getText().toString();
+        time = getTime.getText().toString();
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //check if user not exit in database
+
+
+                final Attendance attendance = new Attendance(date, time, name, phone);
+                if (attendance != null) {
+                    //employee.push().setValue(newEmployeeModel);
+                    databaseReference.child(name).child("checkIn").setValue(date, time);
+                    Toast.makeText(MarkAttendanceActivity.this, "Attendance Marked as Check In", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
 
 

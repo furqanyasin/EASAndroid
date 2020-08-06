@@ -8,17 +8,24 @@ import android.os.CancellationSignal;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
+import com.example.easandroid.Models.Attendance;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class CheckInHandler extends FingerprintManager.AuthenticationCallback {
     private Context context;
-
+    String date, mtime;
 
     public CheckInHandler(Context context) {
 
@@ -86,12 +93,24 @@ public class CheckInHandler extends FingerprintManager.AuthenticationCallback {
 
     public void getCheckInTime() {
 
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss  a");
-        String time = "Check In Time: " + format.format(calendar.getTime());
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference("Attendance");
 
-        TextView textView = ((Activity) context).findViewById(R.id.tv_get_time);
-        textView.setText(time);
+        Attendance attendance = new Attendance(date, mtime, null, null);
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss  a");
+        final String time = "Check In Time: " + timeFormat.format(calendar.getTime());
+
+        final String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+
+
+        //databaseReference.setValue(time);
+        databaseReference.child(currentDate).setValue(attendance);
+
+        TextView mtime = ((Activity) context).findViewById(R.id.tv_get_time);
+        mtime.setText(time);
+
     }
 
 

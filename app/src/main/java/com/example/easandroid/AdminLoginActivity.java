@@ -36,7 +36,7 @@ public class AdminLoginActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
         database = FirebaseDatabase.getInstance();
-        users = database.getReference("users");
+        users = database.getReference("Employee");
 
         phone = findViewById(R.id.admin_sign_in);
         password = findViewById(R.id.admin_password_signin);

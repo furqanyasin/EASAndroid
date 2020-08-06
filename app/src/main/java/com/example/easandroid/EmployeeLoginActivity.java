@@ -34,7 +34,7 @@ public class EmployeeLoginActivity extends AppCompatActivity {
 
         //FirebaseApp.initializeApp(this);
         database = FirebaseDatabase.getInstance();
-        users = database.getReference("users");
+        users = database.getReference("Employee");
 
         phone = findViewById(R.id.employee_signin);
         password = findViewById(R.id.employee_password_signin);

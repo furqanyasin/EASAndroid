@@ -50,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone"
-                    android:text="0300123"
+                    android:text="03214124521"
                     android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
-                    android:text="123456"
+                    android:text="12345678"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
