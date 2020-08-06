@@ -39,5 +39,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
 
+    implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
+
 }
 apply plugin: 'com.google.gms.google-services'
