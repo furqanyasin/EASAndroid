@@ -65,7 +65,7 @@ public class CheckInHandler extends FingerprintManager.AuthenticationCallback {
     public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
 
         this.update("Attendance Marked!", true);
-        this.getCheckInTime();
+        //this.getCheckInTime();
 
 
     }
@@ -90,13 +90,13 @@ public class CheckInHandler extends FingerprintManager.AuthenticationCallback {
         }
 
     }
-
+/*
     public void getCheckInTime() {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference("Attendance");
 
-        Attendance attendance = new Attendance(date, mtime, null, null);
+        //Attendance attendance = new Attendance(date, mtime, null, null);
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss  a");
@@ -111,7 +111,7 @@ public class CheckInHandler extends FingerprintManager.AuthenticationCallback {
         TextView mtime = ((Activity) context).findViewById(R.id.tv_get_time);
         mtime.setText(time);
 
-    }
+    }*/
 
 
 }

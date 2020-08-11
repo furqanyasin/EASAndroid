@@ -5,4 +5,21 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="colorCardBg">#EBC8C8C8</color>
+
+    <color name="rippleEffectColor">#0a9be9</color>
+    <color name="btnSignIn">#29aef5</color>
+    <color name="btnRegister">#05374e</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <color name="base_release_color">#660044f1</color>
+    <color name="base_press_color">#66011e2d</color>
+    <color name="ball_release_color">#6614006e</color>
+    <color name="ball_press_color">#6603003d</color>
+
+    <color name="warningColor">#FFA500</color>
+    <color name="successColor">#a4c639</color>
+    <color name="errorColor">#CC0000</color>
+
+    <color name="textGray">#969393</color>
 </resources>

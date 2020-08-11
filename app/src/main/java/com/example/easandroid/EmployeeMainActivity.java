@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.easandroid.Activities.FaceAttendanceActivity;
 
 public class EmployeeMainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -31,7 +34,7 @@ public class EmployeeMainActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         if (view == markAttendance){
-            Intent intent = new Intent( EmployeeMainActivity.this, MarkAttendanceActivity.class);
+            Intent intent = new Intent( EmployeeMainActivity.this, FaceAttendanceActivity.class);
             startActivity(intent);
 
         }else if (view ==viewAttendance){

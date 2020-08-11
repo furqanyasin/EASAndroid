@@ -109,7 +109,7 @@ public class MarkAttendanceActivity extends AppCompatActivity {
 
     }
 
-    private void addCheckIn() {
+/*    private void addCheckIn() {
         date = getTime.getText().toString();
         time = getTime.getText().toString();
 
@@ -136,7 +136,7 @@ public class MarkAttendanceActivity extends AppCompatActivity {
         });
 
 
-    }
+    }*/
 
     private void checkOutPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

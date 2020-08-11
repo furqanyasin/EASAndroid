@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MarkAttendanceActivity"></activity>
+        <activity android:name=".Activities.AttendanceDetailsActivity"></activity>
+        <activity android:name=".Activities.FaceAttendanceActivity" />
+        <activity android:name=".MarkAttendanceActivity" />
         <activity android:name=".EmployeeMainActivity" />
         <activity android:name=".EmployeeLoginActivity" />
         <activity android:name=".AdminLoginActivity" />
